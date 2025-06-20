@@ -9,10 +9,10 @@
   ],
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
-      "file": ".copilot-commit-message-instructions.md"
-    },
+      "file": "./github.instructions/copilot-commit-message-instructions.instructions.md"
+    }
     {
-      "text": "Always response in #zh-tw. "
+      "text": "Always response in #zh-tw.  "
     }
   ]
 }

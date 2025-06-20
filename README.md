@@ -1,23 +1,81 @@
-# 股票移動平均策略回測
+# 股票回測 FastAPI 後端服務
 
-此專案提供一個簡單範例，示範如何使用 Python 針對特斯拉（TSLA）股票進行移動平均交叉策略的回測。腳本會下載或讀取 `tsla_stock_data.csv`，計算 20 日與 60 日指數移動平均線，並以交叉點作為買賣時機，同時繪出股價與買賣點圖表。
+此專案提供股票技術分析回測的 **FastAPI 後端服務**，支援 MA（移動平均）與 MACD 兩種策略，提供 RESTful API 介面，方便前後端分離架構與 Line Bot 串接。
 
-## 主要檔案
-- `stock.py`：主要程式碼，包含資料下載、策略計算與圖形化結果。
-- `tsla_stock_data.csv`：預先下載的歷史股價資料，若檔案不存在，程式會透過 [yfinance](https://github.com/ranaroussi/yfinance) 下載資料並建立檔案。
+## 專案架構
 
-## 執行方式
-1. 安裝相依套件：
-   ```bash
-   pip install pandas matplotlib yfinance certifi
-   ```
-2. 執行程式：
-   ```bash
-   python stock.py
-   ```
-程式會輸出交易紀錄與總報酬率，並繪製移動平均線與交易點位圖表。
+```
+Stock/
+├── app/
+│   ├── __init__.py
+│   ├── main.py              # FastAPI 主應用程式
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── stock_routes.py  # API 路由
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── schemas.py       # Pydantic 模型
+│   └── services/
+│       ├── __init__.py
+│       └── stock_service.py # 業務邏輯
+├── static/                  # 靜態檔案
+├── run_server.py           # 伺服器啟動腳本
+├── test_api.py             # API 測試範例
+├── stock.py                # 原始腳本（保留作為備份）
+├── utils.py                # 核心功能函式
+└── requirements.txt        # 套件相依
+```
+
+## API 端點
+
+- **POST** `/api/v1/backtest/ma` - 回測 MA 策略
+- **POST** `/api/v1/backtest/macd` - 回測 MACD 策略  
+- **GET** `/api/v1/plot/ma` - 取得 MA 策略圖表
+- **GET** `/api/v1/plot/macd` - 取得 MACD 策略圖表
+
+## 快速開始
+
+### 1. 安裝相依套件
+```bash
+pip install -r requirements.txt
+```
+
+### 2. 啟動 API 伺服器
+```bash
+python run_server.py
+```
+
+### 3. 查看 API 文件
+瀏覽器開啟：http://localhost:8000/docs
+
+### 4. 測試 API
+```bash
+python test_api.py
+```
+
+## API 使用範例
+
+### 回測 MA 策略
+```bash
+curl -X POST "http://localhost:8000/api/v1/backtest/ma" \
+     -H "Content-Type: application/json" \
+     -d '{"ticker": "TSLA", "start": "2020-01-01", "end": "2025-01-01"}'
+```
+
+### 取得圖表
+```bash
+curl "http://localhost:8000/api/v1/plot/ma?ticker=TSLA&start=2020-01-01&end=2025-01-01"
+```
+
+## Line Bot 串接
+
+此 API 設計適合 Line Bot 呼叫：
+1. Line Bot 接收用戶輸入（股票代碼、期間） 
+2. 透過 HTTP 請求呼叫本 API
+3. 取得回測結果或圖表後回傳給用戶
 
 ## 注意事項
-- 此回測範例僅供學習與研究，不代表任何投資建議。
-- 若執行環境無法顯示視覺化圖表，可考慮將 `matplotlib` 的後端改為 `Agg`。
+- 此回測範例僅供學習與研究，不代表任何投資建議
+- 圖表以 base64 格式回傳，方便前端或 Bot 使用
+- 支援 CORS，方便跨域呼叫
 
