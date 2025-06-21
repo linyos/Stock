@@ -1,3 +1,10 @@
+Always response in #zh-tw.
+# 提交訊息指示
+
+
+# Commit Message Instructions
+
+
 The Conventional Commits specification is a lightweight convention on top of commit messages. It provides an easy set of rules for creating an explicit commit history; which makes it easier to write automated tools on top of. This convention dovetails with [SemVer](http://semver.org), by describing the features, fixes, and breaking changes made in commit messages.
 
 The commit message should be structured as follows:
@@ -6,11 +13,12 @@ The commit message should be structured as follows:
 <type>[optional scope]: <description>
 
 [optional body]
-
 [optional footer(s)]
 ```
 
 The commit contains the following structural elements, to communicate intent to the consumers of your library:
+
+
 
 1. **fix:** a commit of the *type* `fix` patches a bug in your codebase (this correlates with [`PATCH`](http://semver.org/#summary) in Semantic Versioning).
 2. **feat:** a commit of the *type* `feat` introduces a new feature to the codebase (this correlates with [`MINOR`](http://semver.org/#summary) in Semantic Versioning).
@@ -40,3 +48,5 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 14. Types other than `feat` and `fix` MAY be used in your commit messages, e.g., *docs: update ref docs.*
 15. The units of information that make up Conventional Commits MUST NOT be treated as case sensitive by implementors, with the exception of BREAKING CHANGE which MUST be uppercase.
 16. BREAKING-CHANGE MUST be synonymous with BREAKING CHANGE, when used as a token in a footer.
+
+

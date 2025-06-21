@@ -15,6 +15,7 @@ async def backtest_ma_strategy(request: BacktestRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+
 @router.post("/backtest/macd", response_model=BacktestResponse)
 async def backtest_macd_strategy(request: BacktestRequest):
     """回測 MACD 策略"""

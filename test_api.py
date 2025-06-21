@@ -19,6 +19,7 @@ def test_ma_backtest():
     
     try:
         response = requests.post(url, json=data)
+        # 檢查回應狀態碼
         if response.status_code == 200:
             result = response.json()
             print("MA 策略回測結果:")

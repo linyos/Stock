@@ -1,14 +1,19 @@
 import os
 import yfinance as yf
 import pandas as pd
+
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 
 def download_data(ticker, start, end, csv_path):
     """下載資料至csv，若已存在則跳過。"""
     if not os.path.exists(csv_path):
         df = yf.download(ticker, start=start, end=end)
-        df.to_csv(csv_path)
+        if df is not None and not df.empty:
+            df.to_csv(csv_path)
+        else:
+            df = None
     else:
         df = None
     return df
@@ -111,7 +116,7 @@ def plot_results(df, buy_dates, buy_prices, sell_dates, sell_prices, ticker):
     plt.plot(df.index, df['MA60'], label='MA60')
     plt.scatter(buy_dates, buy_prices, marker='^', color='green', label='Buy', s=100, zorder=5)
     plt.scatter(sell_dates, sell_prices, marker='v', color='red', label='Sell', s=100, zorder=5)
-    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(10))
+    plt.gca().xaxis.set_major_locator(MaxNLocator(10))
     plt.legend()
     plt.title(f'{ticker} Moving Average Strategy Backtest')
     plt.tight_layout()
@@ -127,7 +132,7 @@ def plot_macd_results(df, buy_dates, buy_prices, sell_dates, sell_prices, ticker
     plt.bar(df.index, df['Hist'], label='Histogram', color='gray', alpha=0.5)
     plt.scatter(buy_dates, buy_prices, marker='^', color='green', label='Buy', s=100, zorder=5)
     plt.scatter(sell_dates, sell_prices, marker='v', color='red', label='Sell', s=100, zorder=5)
-    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(10))
+    plt.gca().xaxis.set_major_locator(MaxNLocator(10))
     plt.legend()
     plt.title(f'{ticker} MACD Strategy Backtest')
     plt.tight_layout()

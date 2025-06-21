@@ -41,15 +41,9 @@ def main():
     print('交易紀錄：')
     for log in trade_log:
         print(log)
-
+    
+    plot_results(df, buy_dates, buy_prices, sell_dates, sell_prices, ticker)
 
 if __name__ == "__main__":
     main()
 
-
-
-
-
-
-if __name__ == '__main__':
-    main()

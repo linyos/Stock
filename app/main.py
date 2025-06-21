@@ -18,6 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # 註冊路由
 app.include_router(stock_router, prefix="/api/v1")
 
